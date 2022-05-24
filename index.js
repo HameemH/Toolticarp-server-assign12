@@ -18,6 +18,7 @@ async function run(){
         const ProductsCollection = client.db("Manufacturer").collection("Products");
         const ordersCollection = client.db("Manufacturer").collection("orders");
         const usersCollection = client.db("Manufacturer").collection("Users");
+        const reviewsCollection = client.db("Manufacturer").collection("reviews");
 
         app.get('/products', async (req, res) => {
             const query = {};
@@ -36,6 +37,19 @@ async function run(){
             const addOrder = await ordersCollection.insertOne(order)
             res.send(addOrder)
 
+        })
+        app.get('/users/:email', async (req,res)=>{
+            const email =req.params.email;
+            const query ={userEmail:email};
+            const user = await usersCollection.findOne(query);
+            console.log(user);
+            res.send(user)
+        })
+        app.post('/reviews', async(req,res)=>{
+          const review = req.body;
+          console.log(req.body);
+          const addReview = await reviewsCollection.insertOne(review);
+          res.send(addReview)
         })
         app.put('/users/:email', async(req,res) =>{
             const email = req.params.email;
