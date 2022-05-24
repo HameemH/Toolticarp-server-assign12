@@ -51,6 +51,12 @@ async function run(){
           const addReview = await reviewsCollection.insertOne(review);
           res.send(addReview)
         })
+        app.get('/reviews',async(req,res)=>{
+          const query ={};
+          const cursor = reviewsCollection.find(query);
+          const reviews = await cursor.toArray();
+          res.send(reviews)
+        })
         app.put('/users/:email', async(req,res) =>{
             const email = req.params.email;
             const user = req.body;
