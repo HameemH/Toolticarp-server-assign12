@@ -26,6 +26,11 @@ async function run(){
             const products = await cursor.toArray();
             res.send(products);
           });
+          app.post('/products', async(req,res)=>{
+            const product =req.body;
+            const addProduct = await ProductsCollection.insertOne(product)
+            res.send(addProduct)
+          })
           app.get('/products/:id', async(req,res) =>{
             const id = req.params.id;
             const query ={_id: ObjectId(id)};
