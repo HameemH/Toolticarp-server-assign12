@@ -46,14 +46,18 @@ async function run(){
         
         app.get('/orders', async (req, res) => {
           const email = req.query.email;
-          console.log(req.query);
           const query = {email:email}
           const cursor = ordersCollection.find(query);
-          console.log(cursor);
           const orders = await cursor.toArray();
-          console.log(orders);
           res.send(orders);
         });
+        app.delete('/orders/:id', async(req, res) =>{
+          const id = req.params.id;
+          const query = {_id: ObjectId(id)};
+          const result = await ordersCollection.deleteOne(query);
+          
+          res.send(result);
+      })
         app.get('/users/:email', async (req,res)=>{
             const email =req.params.email;
             const query ={userEmail:email};
