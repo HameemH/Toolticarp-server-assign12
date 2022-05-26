@@ -36,6 +36,7 @@ async function run(){
         await client.connect()
         const ProductsCollection = client.db("Manufacturer").collection("Products");
         const ordersCollection = client.db("Manufacturer").collection("orders");
+        const orderForPaymentCollection = client.db("Manufacturer").collection("payments");
         const usersCollection = client.db("Manufacturer").collection("Users");
         const reviewsCollection = client.db("Manufacturer").collection("reviews");
 
@@ -66,6 +67,7 @@ async function run(){
         app.post('/orders', async(req,res)=>{
             const order =req.body;
             const addOrder = await ordersCollection.insertOne(order)
+            const addOrder2 = await orderForPaymentCollection.insertOne(order)
             res.send(addOrder)
 
         })
@@ -93,10 +95,10 @@ async function run(){
           
           res.send(result);
       })
-        app.get('/orders/:id', async(req, res) =>{
+        app.get('/duepaymentOrder/:id', async(req, res) =>{
           const id = req.params.id;
           const query = {_id: ObjectId(id)};
-          const result = await ordersCollection.findOne(query);
+          const result = await orderForPaymentCollection.findOne(query);
           
           res.send(result);
       })
