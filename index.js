@@ -60,8 +60,8 @@ async function run(){
           res.send(orders);
         });
        
-        app.get('/orders', async (req, res) => {
-          const email = req.query.email;
+        app.get('/orders/:email', async (req, res) => {
+          const email = req.params.email;
           console.log(email);
           const query = {email:email}
           const cursor = ordersCollection.find(query);
@@ -111,7 +111,7 @@ async function run(){
         })
         app.post('/reviews', async(req,res)=>{
           const review = req.body;
-          console.log(req.body);
+
           const addReview = await reviewsCollection.insertOne(review);
           res.send(addReview)
         })
@@ -123,7 +123,7 @@ async function run(){
         })
         app.put('/users/:email', async(req,res) =>{
             const email = req.params.email;
-            console.log(req.params);
+
             const user = req.body;
             const filter = { userEmail: email };
             const options = { upsert: true };
@@ -135,7 +135,7 @@ async function run(){
         })
         app.put('/orders/:id', async(req,res) =>{
             const id = req.params.id;
-            console.log(req.params);
+            
             const user = req.body;
             const filter = { _id: ObjectId(id) };
             const options = { upsert: true };
