@@ -91,7 +91,7 @@ async function run(){
         app.post('/create-payment-intent', async(req, res) =>{
           const Order = req.body;
           const price = Order.price;
-         console.log(price);
+         
           const paymentIntent = await stripe.paymentIntents.create({
             amount : price,
             currency: 'usd',
@@ -121,6 +121,7 @@ async function run(){
         })
         app.put('/users/:email', async(req,res) =>{
             const email = req.params.email;
+            console.log(req.params);
             const user = req.body;
             const filter = { userEmail: email };
             const options = { upsert: true };
@@ -128,6 +129,18 @@ async function run(){
               $set: user,
             };
             const result = await usersCollection.updateOne(filter, updateDoc, options);
+            res.send(result)
+        })
+        app.put('/orders/:id', async(req,res) =>{
+            const id = req.params.id;
+            console.log(req.params);
+            const user = req.body;
+            const filter = { _id: ObjectId(id) };
+            const options = { upsert: true };
+            const updateDoc = {
+              $set: user,
+            };
+            const result = await ordersCollection.updateOne(filter, updateDoc, options);
             res.send(result)
         })
       
