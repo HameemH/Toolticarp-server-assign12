@@ -52,6 +52,13 @@ async function run(){
         })
         
         app.get('/orders', async (req, res) => {
+          
+          const query = {}
+          const cursor = ordersCollection.find(query);
+          const orders = await cursor.toArray();
+          res.send(orders);
+        });
+        app.get('/orders', async (req, res) => {
           const email = req.query.email;
           const query = {email:email}
           const cursor = ordersCollection.find(query);
@@ -95,7 +102,6 @@ async function run(){
         app.put('/users/:email', async(req,res) =>{
             const email = req.params.email;
             const user = req.body;
-            console.log(user);
             const filter = { userEmail: email };
             const options = { upsert: true };
             const updateDoc = {
@@ -104,6 +110,7 @@ async function run(){
             const result = await usersCollection.updateOne(filter, updateDoc, options);
             res.send(result)
         })
+      
     }
     finally{
 
