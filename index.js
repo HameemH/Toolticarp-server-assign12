@@ -13,12 +13,8 @@ const port = process.env.PORT || 5000;
 //   credentials:true
 // }));
 // app.use(express.json());
-const corsConfig = {
-  origin: 'https://assignment-12-eef58.web.app/',
-  credentials: true,
-  methods: ['GET', 'POST', 'PUT', 'DELETE']
-}
-app.use(cors(corsConfig));
+
+app.use(cors());
 app.use(express.json());
 
 const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.stwgp.mongodb.net/?retryWrites=true&w=majority`;
